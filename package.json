@@ -1,0 +1,29 @@
+{
+  "name": "typescript-101",
+  "version": "1.0.0",
+  "description": "Introductory course of TypeScript",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.2",
+    "vite": "^4.3.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Caperactus/TypeScript-101.git"
+  },
+  "keywords": [
+    "typescript"
+  ],
+  "author": "Kevin Hincapie <caperactus@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Caperactus/TypeScript-101/issues"
+  },
+  "homepage": "https://github.com/Caperactus/TypeScript-101#readme"
+}
