@@ -15,10 +15,9 @@ productName = 'Actus';
 
 const surName = 'Actus';
 
+//|--------------------<<< ||| TYPES of DATA  |||  >>>
 
-//TODO--------------------<<< ||| TYPES of DATA  |||  >>>
-
-//TODO-------------------<<|| NUMBER ||-->>
+//<-------------------<<|| NUMBER ||-->>
 ((/* NUMBER */) => {
   //*let TypeScript infer its value.
   let productPrice = 100;
@@ -42,7 +41,7 @@ const surName = 'Actus';
   //!Don't type a variable with "Number" use instead of "number" it don't work the same way.
 })();
 
-//TODO-------------------<<|| BOOLEAN ||-->>
+//<-------------------<<|| BOOLEAN ||-->>
 
 ((/* BOOLEAN */) => {
   //*Type infered
@@ -57,7 +56,7 @@ const surName = 'Actus';
   isNew = random >= 0.5 ? true : false;//!typescript knows that the returned value must be a boolean.
 })();
 
-//TODO-------------------<<|| STRINGS ||-->>
+//<-------------------<<|| STRINGS ||-->>
 ((/* STRINGS */) => {
   //* type infered
   let productTitle = 'GameCard';
@@ -76,7 +75,7 @@ const surName = 'Actus';
   console.log(product);
 })();
 
-//TODO-------------------<<|| ARRAY ||-->>
+//<-------------------<<|| ARRAY ||-->>
 ((/* ARRAY */) => {
 
   //* Unique Type infered
@@ -96,7 +95,7 @@ const surName = 'Actus';
   myArray.push(false);
   myArray.push([3, 4, 5]);
 
-  //*Implicit Type
+  //*Implicit Type & union
 
   const someData: (number | string)[] = [];
   //? I can only assign the type of data i've defined in the declaration.
@@ -105,3 +104,167 @@ const surName = 'Actus';
   someData.push(28);
 
 })();
+
+//<-------------------<<|| ANY ||-->>
+((/* ANY */) => {
+  //*Implicitly typed
+  //!Using any as a type can be considered a bad practice since the main idea of using typescript is the use of typed variables to control the data in the project.
+  let myDynamicVar: any;
+  myDynamicVar = 100;
+  myDynamicVar = 'Caper';
+  myDynamicVar = { name: 'Actus' };
+  myDynamicVar = ['caper', 'actus'];
+
+  //?Cast : to change the type of a value, there are two ways of doing this:
+  const myTypedVar1 = (myDynamicVar as string[]).concat(' ');//*Use "as" to cast the variable
+  console.log(myTypedVar1);
+
+  myDynamicVar = 'CaperActus'
+  const myTypedVar2 = (<string>myDynamicVar).includes('Caper');//* Use "<>"" to enclose the type
+  console.log(myTypedVar2);
+
+})();
+
+//<-------------------<<|| Union Types ||-->>
+((/* UNION TYPES */) => {
+  //*explicitly typed
+  //?Using the or operator "|" to connect different types we're alowing the variable to recieve more than one type of data, this add felxibility when managing data.
+  let userId: number | string;
+  userId = 123;
+  userId = 'capipop';
+
+  function greeting(mytext: string | number) {
+    if (typeof mytext === 'string') {
+      mytext.toLocaleUpperCase()
+    } else {
+      mytext.toFixed(0);
+    }
+  }
+  greeting(userId);
+})();
+
+//<-------------------<<|| ALIAS & LITERAL TYPES ||-->>
+((/* ALIAS & LITERAL TYPES */) => {
+  //*Alias
+  //?Is recomended to use PascalCase when naming an ALIAS type
+  type UserId = string | number;
+
+  let userId: UserId;
+  userId = 123;
+  userId = 'capipop';
+
+  //*Literal Types
+  //? Limited the range of possible values for a variable
+  type Sizes = 'S' | 'M' | 'L' | 'XL';
+  let shirtSize: Sizes;
+  shirtSize = 'M';
+  shirtSize = 'L';
+  shirtSize = 'XL';
+  shirtSize = 'S';
+  //! Any other value will throw an error
+
+  function greeting(user: UserId, size: Sizes) {
+    if (typeof user === 'string') {
+      user.toLocaleUpperCase()
+    }
+    console.log(`Dear ${user} your t-shirt is ${size} size.`);
+
+  }
+  greeting(userId, 'S');
+})();
+
+//<-------------------<<|| NULL & UNDEFINED ||-->>
+((/* NULL & UNDEFINED */) => {
+  //? The situation to use null or undefined as types are unique, so concider carefully when to use them.
+
+  type UserName = string | null;
+  function sayHi(userName: UserName) {
+    let hello = 'Hi ';
+    //?the optional chaining "?" help us to validate if userName is a validate type of data.
+    //?the OR operator "||" help us to behave according to the first sentence if it is falsy(null, undefined, "", 0, false, NaN) then return the second sentence
+    hello += userName?.toLowerCase() || 'Strange';
+    return hello;
+  }
+  console.log(sayHi('Caper'));
+  console.log(sayHi(null));
+})();
+
+//<-------------------<<|| FUNCTIONS ||-->>
+((/* FUNCTIONS */) => {
+  //?In a function types are used when defining the parameters and it apllies all we've seen before.
+  type Sizes = 'S' | 'M' | 'L' | 'XL';
+
+  const myProductObj = (productName: string, productSize: Sizes, personalized: boolean = false) => {
+    //*I can give a default value to a parameter, so it's optional.
+    return { productName, productSize, personalized }
+  }
+  const myProductObj2 = (productName: string, productSize: Sizes, personalized?: boolean) => {
+    //* if i add a "?" after the parameter name, it means the parameter is optional but if is not passed its value will be "undefined" so typescript infer that the value is in this case: boolean | undefined
+    return { productName, productSize, personalized }
+  }
+
+  const product1 = myProductObj('capicard', 'S');
+  console.log(product1);//{ productName: 'capicard', productSize: 'S', personalized: false }
+
+  const product2 = myProductObj2('capishirt', 'M')
+  console.log(product2);//{ productName: 'capishirt', productSize: 'M', personalized: undefined }
+
+})();
+
+//<-------------------<<|| VOID ||-->>
+((/* VOID */) => {
+  //? Void is the type defined to functions without a return
+  //*We define implicitly the type of nameBuilder() return (defined after the parameters)
+  const nameBuilder = (name: string, surname: string): string => {
+    const fulName = name + ' ' + surname;
+    return fulName;
+  }
+  //*Here we define again explicitly the type of printName but this time is "void", which means that there will be no return value, if we add a return + value it will automatically throw an error.
+  const printName = (names: string[]): void => {
+    let fullName = nameBuilder(names[0], names[1]);
+    console.log(`¡Hi ${fullName}!, great to see you here 😎`);
+    return;
+  }
+  //*We can also let typescript infer the void type just skipping the implicit type declaration.
+  printName(['Caper', 'actus']);
+})();
+
+
+//<-------------------<<|| LITERAL TYPES ||-->>
+((/* LITERAL TYPES */) => {
+  //?Using literal types we can define any structure of data including objects and arrays
+  type Sizes = 'S' | 'M' | 'L' | 'XL';
+  type Keywords = 'Game' | 'Anime' | 'Manga'| 'Merchandising';
+  type Product = {
+    title: string,
+    createdAt: Date,
+    stock: number,
+    keywords: Keywords[],
+    size?:Sizes
+  }
+  //*Now i'm defining that products will be an array that will only contain objects built with the Product type.
+  const products : Product[] = [];
+
+  //*Now i'm building a function that add to our products array objects constructed from Product type objects
+  const addProduct = (product : Product) =>{
+    products.push(product);
+  }
+
+  addProduct({
+    title: 'CapiCard',
+    createdAt: new Date(),
+    stock: 5,
+    keywords: ['Game'],
+  });
+  addProduct({
+    title: 'CapiT-shirt',
+    createdAt: new Date(),
+    stock: 15,
+    keywords: ['Merchandising'],
+    size: 'S'
+  });
+
+  console.log(products);
+
+})();
+const mamama = 1 +'1';

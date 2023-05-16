@@ -21,6 +21,6 @@ With the command **npx tsc --watch** you track changes in your **.ts** files to 
 *Note*: The tsconfig.json file is already created when you use **Vite** so if want to compile you should use **npm run build**, using *npx tsc* will not work beacause of the ("noEmit": true) in the tsconfig.json file created by Vite, also *npx tsc --watch* won't have any effect in your project.
 
 ##🪢Types
-To explain types in TypeScript i will use the [demo.ts](./src/types.ts) file.
+To explain types in TypeScript i will use the [types.ts](./src/types.ts) file.
 
 [^1]: This file is the result of me following a course, this is not a proffesional explanation or so. If something i wrote down is wrong please tell me where i'm wrong, so i can learn properly 🥸. Thanks😁.
